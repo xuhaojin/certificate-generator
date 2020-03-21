@@ -61,7 +61,7 @@ public class DocOperator {
 
 		FileOutputStream out = new FileOutputStream(outputPath);
 		document.write(out);
-		
+
 		out.close();
 		document.close();
 
@@ -105,10 +105,16 @@ public class DocOperator {
 	}
 
 	public static void main(String[] args) throws IOException, XmlException {
-		String templatePath = "C:\\Users\\a1579\\Desktop\\1.docx";
-		String outputPath = "C:\\Users\\a1579\\Desktop\\2.docx";
+		String templatePath = "C:\\Users\\a1579\\Desktop\\template.docx";
+		String outputPath = "C:\\Users\\a1579\\Desktop\\custom.docx";
 		CertificateData data = new CertificateData();
 		data.put(new CertificateField("持证人", "张三"));
+		data.put(new CertificateField("证书中文信息", "祝贺您完成\"直升机飞行员岗位资质\"培训课程。特发此证！"));
+		data.put(new CertificateField("证书英文信息",
+				"Congratulations on completion of training program of \"Helicopter Pilot Qualification\""));
+		data.put(new CertificateField("证书编号", "100224512"));
+		data.put(new CertificateField("证书签名", "李四"));
+		data.put(new CertificateField("证书日期", "2020年3月21日"));
 		toCumstomDoc(templatePath, outputPath, data);
 	}
 
