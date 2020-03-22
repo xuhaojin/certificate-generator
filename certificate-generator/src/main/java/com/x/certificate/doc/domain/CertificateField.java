@@ -27,6 +27,10 @@ public class CertificateField {
 		this(key, content, null, null);
 	}
 
+	public CertificateField(String key, String content, Integer fontSize) {
+		this(key, content, fontSize, null);
+	}
+
 	public CertificateField(String key, String content, Integer fontSize, String fontFamily) {
 		this(key, content, fontSize, fontFamily, false);
 	}
