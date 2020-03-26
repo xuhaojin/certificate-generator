@@ -22,31 +22,9 @@ public class PropertiesReader {
 	public static Properties getProperties(String pathInDemo) throws IOException {
 		Properties properties = new Properties();
 
-		ClassPathResource classPathResource = new ClassPathResource(pathInDemo);
+		File file = new ClassPathResource(pathInDemo).getFile();
 
-		File file = classPathResource.getFile();
-
-		BufferedReader bufferedReader = null;
-		try {
-			bufferedReader = new BufferedReader(new FileReader(file));
-			properties.load(bufferedReader);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return properties;
-	}
-
-	public static Properties getProperties2(String pathInDemo) throws IOException {
-		Properties properties = new Properties();
-
-		String path = System.getProperty("user.dir") + "/src/main/resources/" + pathInDemo;
-		
-		File file = new File(path);
-
-		BufferedReader bufferedReader = null;
-		try {
-			bufferedReader = new BufferedReader(new FileReader(file));
+		try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file));) {
 			properties.load(bufferedReader);
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -19,13 +19,11 @@ public class PdfConverter {
 	public static File toImageUsingPdfbox(String pdfPath, String imagePath, String imageExt) {
 		File out = null;
 
-		try {
+		try (PDDocument document = PDDocument.load(new File(pdfPath));) {
 			File imagePathFile = new File(getPath(imagePath));
 			if (!imagePathFile.exists()) {
 				imagePathFile.mkdirs();
 			}
-
-			PDDocument document = PDDocument.load(new File(pdfPath));
 			PDFRenderer pdfRender = new PDFRenderer(document);
 			BufferedImage image = pdfRender.renderImage(0, 200);
 			out = new File(imagePath);
