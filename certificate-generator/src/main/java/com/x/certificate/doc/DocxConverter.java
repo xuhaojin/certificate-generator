@@ -45,4 +45,11 @@ public class DocxConverter {
 		return officeManager;
 	}
 
+	public static void main(String[] args) throws IOException {
+		String inputFile = "C:\\Users\\a1579\\Desktop\\custom.docx";
+		String outputFile = "C:\\Users\\a1579\\Desktop\\custom.pdf";
+		String librePath = "D:\\libreoffice";
+		toPdfUsingLibreOffice(inputFile, outputFile, librePath);
+	}
+
 }
