@@ -25,7 +25,7 @@ public class PdfConverter {
 				imagePathFile.mkdirs();
 			}
 			PDFRenderer pdfRender = new PDFRenderer(document);
-			BufferedImage image = pdfRender.renderImage(0, 200);
+			BufferedImage image = pdfRender.renderImage(0, 2);
 			out = new File(imagePath);
 			ImageIO.write(image, imageExt, out);
 			document.close();
@@ -50,8 +50,8 @@ public class PdfConverter {
 
 	public static void main(String[] args) throws IOException {
 		long startTime = System.currentTimeMillis();
-		String pdfPath = "C:\\Users\\a1579\\Desktop\\1.pdf";
-		String imagePath = "C:\\Users\\a1579\\Desktop\\1.jpg";
+		String pdfPath = "C:\\Users\\a1579\\Desktop\\custom.pdf";
+		String imagePath = "C:\\Users\\a1579\\Desktop\\custom.jpg";
 		toImageUsingPdfbox(pdfPath, imagePath, "jpg");
 		System.out.println("所用时间：" + (System.currentTimeMillis() - startTime) + "ms");
 	}
