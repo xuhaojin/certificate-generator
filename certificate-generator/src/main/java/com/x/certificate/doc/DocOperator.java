@@ -1,5 +1,6 @@
 package com.x.certificate.doc;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -29,7 +30,12 @@ public class DocOperator {
 
 	public static String toCumstomDoc(String templatePath, String outputPath, CertificateData certificateData)
 			throws IOException, XmlException {
-		XWPFDocument document = new XWPFDocument(new FileInputStream(templatePath));
+		return toCumstomDoc(new File(templatePath), outputPath, certificateData);
+	}
+
+	public static String toCumstomDoc(File template, String outputPath, CertificateData certificateData)
+			throws IOException, XmlException {
+		XWPFDocument document = new XWPFDocument(new FileInputStream(template));
 
 		Set<String> keys = certificateData.getKeys();
 
