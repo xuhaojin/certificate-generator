@@ -16,7 +16,30 @@ import org.apache.pdfbox.rendering.PDFRenderer;
  */
 public class PdfConverter {
 
+	private static final float DEFAULT_IMAGE_SCALE = 2F;
+
+	/**
+	 * 使用pdfbox工具，将pdf转成图片
+	 * @param pdfPath
+	 * @param imagePath
+	 * @param imageExt
+	 * @return    参数
+	 * File    返回类型
+	 */
 	public static File toImageUsingPdfbox(String pdfPath, String imagePath, String imageExt) {
+		return toImageUsingPdfbox(pdfPath, imagePath, imageExt, DEFAULT_IMAGE_SCALE);
+	}
+
+	/**
+	 * 使用pdfbox工具，将pdf转成图片
+	 * @param pdfPath
+	 * @param imagePath
+	 * @param imageExt
+	 * @param imageScale 图片规模，默认设置为2
+	 * @return    参数
+	 * File    返回类型
+	 */
+	public static File toImageUsingPdfbox(String pdfPath, String imagePath, String imageExt, Float imageScale) {
 		File out = null;
 
 		try (PDDocument document = PDDocument.load(new File(pdfPath));) {
@@ -25,7 +48,12 @@ public class PdfConverter {
 				imagePathFile.mkdirs();
 			}
 			PDFRenderer pdfRender = new PDFRenderer(document);
-			BufferedImage image = pdfRender.renderImage(0, 2);
+
+			if (imageScale == null) {
+				imageScale = DEFAULT_IMAGE_SCALE;
+			}
+
+			BufferedImage image = pdfRender.renderImage(0, imageScale);
 			out = new File(imagePath);
 			ImageIO.write(image, imageExt, out);
 			document.close();

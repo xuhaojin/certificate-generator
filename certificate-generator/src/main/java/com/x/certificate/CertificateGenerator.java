@@ -2,7 +2,6 @@ package com.x.certificate;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
@@ -10,10 +9,11 @@ import org.apache.xmlbeans.XmlException;
 import org.springframework.core.io.ClassPathResource;
 
 import com.x.certificate.doc.DocOperator;
+import com.x.certificate.doc.DocxConverter;
 import com.x.certificate.doc.domain.CertificateData;
 import com.x.certificate.doc.domain.CertificateField;
-import com.x.certificate.path.TempPathGenerator;
-import com.x.certificate.path.domain.TempFilePath;
+import com.x.certificate.path.domain.CertificateTempPaths;
+import com.x.certificate.pdf.PdfConverter;
 import com.x.certificate.properties.PropertiesReader;
 
 /** 
@@ -28,24 +28,34 @@ public class CertificateGenerator {
 		Properties properties = PropertiesReader.getProperties("config\\certificate.properties");
 		String officePath = properties.getProperty("libreoffice.path");
 		String imageSuffix = properties.getProperty("certificate.image.suffix");
-		String imageScale = properties.getProperty("certificate.image.scale");
+		String imageScaleStr = properties.getProperty("certificate.image.scale");
+
+		Float imageScale = null;
+		try {
+			imageScale = Float.valueOf(imageScaleStr);
+		} catch (NumberFormatException e) {
+			// image scale转换失败
+		}
 
 		// 获取证书模板
 		File docxTemplate = new ClassPathResource("template\\template.docx").getFile();
 
 		// 生成临时文件路径
-		List<TempFilePath> tempPaths = TempPathGenerator.generateTempPaths("docx", "pdf", imageSuffix);
+		CertificateTempPaths tempPaths = CertificateTempPaths.newInstance("docx", "pdf", imageSuffix);
 
 		// 复制证书模板，将字段替换为自定义数据
-		String tempDocxPath = tempPaths.get(0).getPathName();
+		String tempDocxPath = tempPaths.getTempDocPathName();
 		DocOperator.toCumstomDoc(docxTemplate, tempDocxPath, data);
 
-		// TODO 将doc模板转成pdf
+		// 将doc模板转成pdf
+		String tempPdfPath = tempPaths.getTempPdfPathName();
+		DocxConverter.toPdfUsingLibreOffice(tempDocxPath, tempPdfPath, officePath);
 
-		// TODO 将pdf转成证书图片
+		// 将pdf转成证书图片
+		PdfConverter.toImageUsingPdfbox(tempPdfPath, tempPaths.getTempImagePathName(), imageSuffix, imageScale);
 
-		// TODO 删除生成证书使用的临时文件
-
+		// 删除生成证书使用的临时文件
+		tempPaths.deleteTempFiles();
 	}
 
 	public static void generate(CertificateData data, String imageSuffix) {
