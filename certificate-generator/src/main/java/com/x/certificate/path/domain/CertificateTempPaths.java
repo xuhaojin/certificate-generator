@@ -1,9 +1,11 @@
 package com.x.certificate.path.domain;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.springframework.core.io.ClassPathResource;
 
 import com.x.certificate.path.TempPathGenerator;
 
@@ -38,12 +40,12 @@ public class CertificateTempPaths {
 
 	public boolean deleteTempFile(String filePath) {
 		try {
-			File tempFile = new File(filePath);
+			File tempFile = new ClassPathResource(filePath).getFile();
 			if (tempFile.exists()) {
 				FileUtils.deleteQuietly(tempFile);
 				FileUtils.deleteQuietly(tempFile.getParentFile());
 			}
-		} catch (NullPointerException | SecurityException e) {
+		} catch (NullPointerException | SecurityException | IOException e) {
 			return false;
 		}
 
