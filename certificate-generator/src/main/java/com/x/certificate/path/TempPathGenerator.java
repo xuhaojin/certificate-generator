@@ -1,9 +1,9 @@
 package com.x.certificate.path;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.google.common.collect.Lists;
 import com.x.certificate.path.domain.TempFilePath;
 
 /** 
@@ -13,16 +13,16 @@ import com.x.certificate.path.domain.TempFilePath;
  */
 public class TempPathGenerator {
 
-	public static String tempFilePath = "/u/cms/tmp/";
+	public static String tempFilePath = "/src/main/resources/tmp/";
 
 	public static TempFilePath generateTempPath(String fileExt) {
-		String path = tempFilePath + fileExt + "/" + System.currentTimeMillis();
+		String path = System.getProperty("user.dir") + tempFilePath + fileExt + "/" + System.currentTimeMillis();
 		String name = getId() + "." + fileExt;
 		return new TempFilePath(path, name);
 	}
 
 	public static List<TempFilePath> generateTempPaths(String... fileExts) {
-		List<TempFilePath> tempFilePaths = new ArrayList<TempFilePath>();
+		List<TempFilePath> tempFilePaths = Lists.newArrayList();
 
 		for (String fileExt : fileExts) {
 			tempFilePaths.add(generateTempPath(fileExt));
