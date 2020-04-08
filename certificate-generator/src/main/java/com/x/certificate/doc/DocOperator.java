@@ -63,8 +63,8 @@ public class DocOperator {
 				xmlObject.set(bufferrun.getCTR());
 			}
 		}
-
-		FileOutputStream out = new FileOutputStream(outputPath);
+		
+		FileOutputStream out = new FileOutputStream(new File(outputPath));
 		document.write(out);
 
 		out.close();
@@ -139,13 +139,14 @@ public class DocOperator {
 		String templatePath = "C:\\Users\\a1579\\Desktop\\template.docx";
 		String outputPath = "C:\\Users\\a1579\\Desktop\\custom.docx";
 		CertificateData data = new CertificateData();
-		data.put(new CertificateField("持证人", addBlankSpace("张三"), 34));
-		data.put(new CertificateField("证书中文信息", "祝贺您完成\"直升机飞行员岗位资质\"培训课程。特发此证！", 18));
+		data.put(new CertificateField("持证人", addBlankSpace("张三"), 34, "宋体"));
+		data.put(new CertificateField("证书中文信息", "祝贺您完成\"直升机飞行员岗位资质\"培训课程。特发此证！", 18, "宋体"));
 		data.put(new CertificateField("证书英文信息",
-				"Congratulations on completion of training program of \"Helicopter Pilot Qualification\"", 15));
-		data.put(new CertificateField("证书编号", "100224512", 18));
-		data.put(new CertificateField("证书签名", addBlankSpace("李四"), 25));
-		data.put(new CertificateField("证书日期", "2020年3月21日", 15));
+				"Congratulations on completion of training program of \"Helicopter Pilot Qualification\"", 15,
+				"Calibri"));
+		data.put(new CertificateField("证书编号", "100224512", 18, "宋体"));
+		data.put(new CertificateField("证书签名", addBlankSpace("李四"), 25, "宋体"));
+		data.put(new CertificateField("证书日期", "2020年3月21日", 15, "宋体"));
 		toCumstomDoc(templatePath, outputPath, data);
 	}
 

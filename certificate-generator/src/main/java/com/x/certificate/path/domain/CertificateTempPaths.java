@@ -24,7 +24,30 @@ public class CertificateTempPaths {
 
 	public static CertificateTempPaths newInstance(String docSuffix, String pdfSuffix, String imageSuffix) {
 		List<TempFilePath> tempFilePaths = TempPathGenerator.generateTempPaths(docSuffix, pdfSuffix, imageSuffix);
+		createTempFiles(tempFilePaths);
 		return new CertificateTempPaths(tempFilePaths);
+	}
+
+	public static void createTempFiles(List<TempFilePath> tempFilePaths) {
+		for (TempFilePath tempFilePath : tempFilePaths) {
+			createTempFile(tempFilePath);
+		}
+	}
+
+	public static void createTempFile(TempFilePath tempFilePath) {
+		try {
+			File path = new File(tempFilePath.getPath());
+			if (!path.exists()) {
+				path.mkdirs();
+			}
+
+			File tempFile = new File(tempFilePath.getPathName());
+			if (!tempFile.exists()) {
+				tempFile.createNewFile();
+			}
+		} catch (IOException | SecurityException | NullPointerException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public boolean deleteTempFiles() {

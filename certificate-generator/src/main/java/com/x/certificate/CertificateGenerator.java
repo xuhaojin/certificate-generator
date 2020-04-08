@@ -89,8 +89,6 @@ public class CertificateGenerator {
 	}
 
 	public static void main(String[] args) throws IOException, XmlException {
-		// String templatePath = "C:\\Users\\a1579\\Desktop\\template.docx";
-		// String outputPath = "C:\\Users\\a1579\\Desktop\\custom.docx";
 		CertificateData data = new CertificateData();
 		data.put(new CertificateField("持证人", addBlankSpace("张三"), 34));
 		data.put(new CertificateField("证书中文信息", "祝贺您完成\"直升机飞行员岗位资质\"培训课程。特发此证！", 18));
